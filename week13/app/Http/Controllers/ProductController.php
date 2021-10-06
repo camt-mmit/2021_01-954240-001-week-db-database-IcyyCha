@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Models\Product;
+use Illuminate\Database\QueryException;
 
 class ProductController extends Controller
 {
@@ -35,6 +36,18 @@ class ProductController extends Controller
         
         function create(Request $request) {
         $product = Product::create($request->getParsedBody());
+            $this->authorize('create', Product::class);
+            
+            try {
+            return redirect()->route('product-list')
+            ->with('status', "Product {$product->code} was created.")
+            ;
+            } catch(QueryException $excp) {
+                return redirect()->back()->withInput()->withErrors([
+                'error' => $excp->errorInfo[2],
+                ]);
+            }
+            }
         
         return redirect()->route('product-list');
         }
@@ -121,16 +134,40 @@ class ProductController extends Controller
                                     }
                                     function updateForm() {
                                         $this->authorize('update', Product::class);
-                                        // ... other statements
+                                        try {
+                                            return redirect()->route('product-list')
+                                            ->with('status', "Product {$product->code} was created.")
+                                            ;
+                                            } catch(QueryException $excp) {
+                                                return redirect()->back()->withInput()->withErrors([
+                                                'error' => $excp->errorInfo[2],
+                                                ]);
+                                            }
                                         }
                                         function update(Request $request) {
                                         $this->authorize('update', Product::class);
-                                        // ... other statements
+                                        try {
+                                            return redirect()->route('product-list')
+                                            ->with('status', "Product {$product->code} was created.")
+                                            ;
+                                            } catch(QueryException $excp) {
+                                                return redirect()->back()->withInput()->withErrors([
+                                                'error' => $excp->errorInfo[2],
+                                                ]);
+                                            }
                                         }
                                         function delete($productCode) {
                                             $product = Product::where('code', $productCode)->FirstOrFail();
                                             $this->authorize('delete', $product);
-                                            // ... other statements
+                                            try {
+                                                return redirect()->route('product-list')
+                                                ->with('status', "Product {$product->code} was created.")
+                                                ;
+                                                } catch(QueryException $excp) {
+                                                    return redirect()->back()->withInput()->withErrors([
+                                                    'error' => $excp->errorInfo[2],
+                                                    ]);
+                                                }
                                             }
                                     }
 class ProductController extends SearchableController

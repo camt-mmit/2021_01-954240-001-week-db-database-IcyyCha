@@ -18,6 +18,11 @@
         <div class="status">
         <span class="info">{{ session()->get('status') }}</span>
         </div>
+        @error('error')
+        <div class="status">
+        <span class="warn">{{ $message }}</span>
+        </div>
+        @enderror
         @endif
         @yield('content')
         </main>

@@ -121,16 +121,13 @@ class ProductController extends Controller
                                     }
                                     function updateForm() {
                                         $this->authorize('update', Product::class);
-                                        // ... other statements
                                         }
                                         function update(Request $request) {
                                         $this->authorize('update', Product::class);
-                                        // ... other statements
                                         }
                                         function delete($productCode) {
                                             $product = Product::where('code', $productCode)->FirstOrFail();
                                             $this->authorize('delete', $product);
-                                            // ... other statements
                                             }
                                     }
 class ProductController extends SearchableController
